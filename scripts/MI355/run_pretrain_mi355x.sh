@@ -19,11 +19,12 @@ export NCCL_SOCKET_IFNAME=enp193s0f1np1
 export GLOO_SOCKET_IFNAME=enp193s0f1np1
 
 ########################### Training Config ###################################
+export MODEL_NAME=${MODEL_NAME:-llama3.1_8B}
 export MBS=${MBS:-8}
 export GBS=${GBS:-256}
 export TP=${TP:-1}
 export PP=${PP:-1}
-export EP=${EP:-8}
+export EP=${EP:-1}
 export SEQ_LENGTH=${SEQ_LENGTH:-4096}
 export RECOMPUTE_LAYERS=${RECOMPUTE_LAYERS:-0}
 export LEGACY_GG=${LEGACY_GG:-False}
@@ -38,8 +39,7 @@ export NVTE_CK_USES_BWD_V3=1
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
 export PRIMUS_USER=user-tas
-# export PRIMUS_EXP_NAME="debug"
-export PRIMUS_EXP_NAME="Qwen3_30B_A3B_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}"
+export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}"
 
 LOG_DIR=./output/$PRIMUS_TEAM/$PRIMUS_USER/$PRIMUS_EXP_NAME
 export LOG_FILE=$LOG_DIR/training.log
@@ -47,7 +47,7 @@ export EXPORT_CONFIG=$LOG_DIR/config.yaml
 mkdir -p "$LOG_DIR"
 
 ########################## Training Job #######################################
-export EXP="examples/megatron/configs/MI355X/qwen3_30B_A3B-BF16-pretrain.yaml"
+export EXP="examples/megatron/configs/MI355X/${MODEL_NAME}-BF16-pretrain.yaml"
 
 bash ./examples/run_slurm_pretrain.sh \
     --micro_batch_size "$MBS" \
