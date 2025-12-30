@@ -7,8 +7,7 @@
 ###############################################################################
 
 ###################### Training Docker and Variables ##########################
-# export DOCKER_IMAGE="docker.io/tasimage/primus:pr-464-v25.09-ainic"
-export DOCKER_IMAGE="docker.io/tasimage/primus:pr-464-v25.11-ainic"
+export DOCKER_IMAGE="docker.io/tasimage/primus:pr-464-v25.09-ainic"
 export HF_TOKEN=${HF_TOKEN:-"your_hf_token"}
 export CLEAN_DOCKER_CONTAINER=1
 export SKIP_TRAIN=0
@@ -39,8 +38,8 @@ export NVTE_CK_USES_BWD_V3=1
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
 export PRIMUS_USER=user-tas
-export PRIMUS_EXP_NAME="debug"
-# export PRIMUS_EXP_NAME="Qwen3_30B_A3B_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}"
+# export PRIMUS_EXP_NAME="debug"
+export PRIMUS_EXP_NAME="Qwen3_30B_A3B_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}"
 
 LOG_DIR=./output/$PRIMUS_TEAM/$PRIMUS_USER/$PRIMUS_EXP_NAME
 export LOG_FILE=$LOG_DIR/training.log
