@@ -29,6 +29,38 @@ export SEQ_LENGTH=${SEQ_LENGTH:-4096}
 export RECOMPUTE_LAYERS=${RECOMPUTE_LAYERS:-0}
 export LEGACY_GG=${LEGACY_GG:-False}
 export TRAIN_ITERS=${TRAIN_ITERS:-10}
+export MANUAL_GC=${MANUAL_GC:-False}
+export ENABLE_SYNC_FREE_MOE=${ENABLE_SYNC_FREE_MOE:-False}
+export ENABLE_TURBO_DEEPEP=${ENABLE_TURBO_DEEPEP:-False}
+
+FEATURE_ARGS=()
+
+PRIMUS_TURBO_ENABLED="False"
+ensure_primus_turbo() {
+    if [ "$PRIMUS_TURBO_ENABLED" = "False" ]; then
+        FEATURE_ARGS+=("--enable_primus_turbo" "True")
+        PRIMUS_TURBO_ENABLED="True"
+    fi
+}
+
+if [ "$MANUAL_GC" = "True" ]; then
+    FEATURE_ARGS+=("--manual_gc" "True")
+    FEATURE_ARGS+=("--manual_gc_interval" "1")
+fi
+
+if [ "$ENABLE_SYNC_FREE_MOE" = "True" ]; then
+    ensure_primus_turbo
+    FEATURE_ARGS+=("--turbo_sync_free_moe_stage" "1")
+fi
+
+if [ "$ENABLE_TURBO_DEEPEP" = "True" ]; then
+    ensure_primus_turbo
+    FEATURE_ARGS+=("--use_turbo_deepep" "True")
+    FEATURE_ARGS+=("--turbo_deepep_num_cu" "32")
+    FEATURE_ARGS+=("--turbo_deepep_use_comm_stream" "False")
+    FEATURE_ARGS+=("--moe_shared_expert_overlap" "False")
+    FEATURE_ARGS+=("--moe_router_dtype" "fp32")
+fi
 
 ###################### Training Launch Config #################################
 export ENABLE_NUMA_BINDING=1
@@ -62,11 +94,5 @@ bash ./examples/run_slurm_pretrain.sh \
     --recompute_num_layers "${RECOMPUTE_LAYERS}" \
     --cross_entropy_fusion_impl "te" \
     --cross_entropy_loss_fusion "True" \
-    --enable_primus_turbo "True" \
-    --use_turbo_deepep "True" \
-    --turbo_deepep_num_cu "32" \
-    --turbo_deepep_use_comm_stream "False" \
-    --moe_shared_expert_overlap "False" \
-    --moe_router_dtype "fp32" \
-    --turbo_sync_free_moe_stage "1" \
+    "${FEATURE_ARGS[@]}" \
     --train_iters "$TRAIN_ITERS" 2>&1 | tee "$LOG_FILE"
