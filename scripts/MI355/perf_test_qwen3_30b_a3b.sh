@@ -6,6 +6,12 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TRAINING_BENCHMARK_DIR="$( dirname "$( dirname "$SCRIPT_DIR" )" )"
 PRIMUS_PATH="$TRAINING_BENCHMARK_DIR/third_party/Primus"
 
+export MODEL_NAME="qwen3_30B_A3B"
+export MANUAL_GC=True
+export NUMA_BINDING=True
+export ENABLE_SYNC_FREE_MOE=True
+export ENABLE_TURBO_DEEPEP=True
+
 # NNODES, MBS, GBS, TP, PP, EP, RECOMPUTE_LAYERS, TRAIN_ITERS
 CONFIGS=(
     "4 1 16 1 2 8 0 10"
@@ -27,5 +33,5 @@ for CONFIG in "${CONFIGS[@]}"; do
     export EP=${ep}
     export RECOMPUTE_LAYERS=${recompute_layers}
     export TRAIN_ITERS=${train_iters}
-    bash "${TRAINING_BENCHMARK_DIR}"/scripts/MI355/run_qwen3_30b_a3b_pretrain_mi355x.sh
+    bash "${TRAINING_BENCHMARK_DIR}"/scripts/MI355/run_pretrain_mi355x.sh
 done
