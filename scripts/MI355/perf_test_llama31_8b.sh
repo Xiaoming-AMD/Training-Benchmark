@@ -11,11 +11,11 @@ export MODEL_NAME="llama3.1_8B"
 # NNODES, MBS, GBS, TRAIN_ITERS
 CONFIGS=(
     "1 2 16   50"
-    # "1 8 256  10"
-    # "1 8 1024 10"
+    "1 8 256  10"
+    "1 8 1024 10"
     "2 1 16   50"
-    # "2 8 256  10"
-    # "2 8 1024 10"
+    "2 8 256  10"
+    "2 8 1024 10"
 )
 
 cd "$PRIMUS_PATH" || exit
