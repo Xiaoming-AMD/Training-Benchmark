@@ -63,10 +63,14 @@ if [ "$ENABLE_TURBO_DEEPEP" = "True" ]; then
 fi
 
 ###################### Training Launch Config #################################
-export ENABLE_NUMA_BINDING=1
-export HSA_KERNARG_POOL_SIZE=12582912
 export HSA_NO_SCRATCH_RECLAIM=1
 export NVTE_CK_USES_BWD_V3=1
+
+export NUMA_BINDING=${NUMA_BINDING:-False}
+if [ "$NUMA_BINDING" = "True" ]; then
+    export ENABLE_NUMA_BINDING=1
+    export HSA_KERNARG_POOL_SIZE=12582912
+fi
 
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
