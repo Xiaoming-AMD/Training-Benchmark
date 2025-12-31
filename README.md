@@ -45,7 +45,7 @@ If `PIPELINE_LAYOUT` is set, it will be passed as `--pipeline_model_parallel_lay
 
 ### 2. Qwen3 235B perf sweep
 
-To run the predefined Qwen3 235B performance sweep:
+Run the predefined Qwen3 235B A22B performance sweep:
 
 ```bash
 cd scripts/MI355
@@ -55,4 +55,40 @@ bash perf_test_qwen3_235b_a22b.sh
 This script:
 - Exports common perf flags (`MANUAL_GC`, `NUMA_BINDING`, `ENABLE_SYNC_FREE_MOE`, `ENABLE_TURBO_DEEPEP`)
 - Iterates over a list of `(NNODES, MBS, GBS, PP, EP, VPP, PIPELINE_LAYOUT, TRAIN_ITERS)` configs
+- Calls `run_pretrain_mi355x.sh` for each config
+
+### 3. Qwen3 30B A3B perf sweep
+
+```bash
+cd scripts/MI355
+bash perf_test_qwen3_30b_a3b.sh
+```
+
+This script:
+- Sets `MODEL_NAME=qwen3_30B_A3B` and enables `MANUAL_GC`, `NUMA_BINDING`, `ENABLE_SYNC_FREE_MOE`, `ENABLE_TURBO_DEEPEP`
+- Sweeps `(NNODES, MBS, GBS, TP, PP, EP, RECOMPUTE_LAYERS, TRAIN_ITERS)`
+- Calls `run_pretrain_mi355x.sh` for each config
+
+### 4. Qwen3 8B perf sweep
+
+```bash
+cd scripts/MI355
+bash perf_test_qwen3_8b.sh
+```
+
+This script:
+- Sets `MODEL_NAME=qwen3_8B`
+- Sweeps `(NNODES, MBS, GBS, TRAIN_ITERS)` for smaller model scaling
+- Calls `run_pretrain_mi355x.sh` for each config
+
+### 5. Llama3.1 8B perf sweep
+
+```bash
+cd scripts/MI355
+bash perf_test_llama31_8b.sh
+```
+
+This script:
+- Sets `MODEL_NAME=llama3.1_8B`
+- Sweeps `(NNODES, MBS, GBS, TRAIN_ITERS)` similar to Qwen3 8B
 - Calls `run_pretrain_mi355x.sh` for each config
