@@ -25,6 +25,7 @@ export GBS=${GBS:-256}
 export TP=${TP:-1}
 export PP=${PP:-1}
 export EP=${EP:-1}
+export VPP=${VPP:-1}
 export SEQ_LENGTH=${SEQ_LENGTH:-4096}
 export RECOMPUTE_LAYERS=${RECOMPUTE_LAYERS:-0}
 export LEGACY_GG=${LEGACY_GG:-False}
@@ -86,7 +87,7 @@ fi
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
 export PRIMUS_USER=user-tas
-export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}"
+export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}"
 
 LOG_DIR=./output/$PRIMUS_TEAM/$PRIMUS_USER/$PRIMUS_EXP_NAME
 export LOG_FILE=$LOG_DIR/training.log
@@ -102,6 +103,7 @@ bash ./examples/run_slurm_pretrain.sh \
     --seq_length "$SEQ_LENGTH" \
     --tensor_model_parallel_size "$TP" \
     --pipeline_model_parallel_size "$PP" \
+    --num_virtual_stages_per_pipeline_rank "$VPP" \
     --expert_model_parallel_size "$EP" \
     --moe_use_legacy_grouped_gemm "$LEGACY_GG" \
     --recompute_granularity "full" \
