@@ -32,6 +32,11 @@ export TRAIN_ITERS=${TRAIN_ITERS:-10}
 export MANUAL_GC=${MANUAL_GC:-False}
 export ENABLE_SYNC_FREE_MOE=${ENABLE_SYNC_FREE_MOE:-False}
 export ENABLE_TURBO_DEEPEP=${ENABLE_TURBO_DEEPEP:-False}
+export VPP=${VPP:-1}
+
+# Optional pipeline layout: if PIPELINE_LAYOUT is set externally, pass it through;
+# otherwise do not configure pipeline_model_parallel_layout at all.
+PIPELINE_LAYOUT=${PIPELINE_LAYOUT:-""}
 
 FEATURE_ARGS=()
 
@@ -60,6 +65,12 @@ if [ "$ENABLE_TURBO_DEEPEP" = "True" ]; then
     FEATURE_ARGS+=("--turbo_deepep_use_comm_stream" "False")
     FEATURE_ARGS+=("--moe_shared_expert_overlap" "False")
     FEATURE_ARGS+=("--moe_router_dtype" "fp32")
+fi
+
+if [ -n "$PIPELINE_LAYOUT" ]; then
+    FEATURE_ARGS+=("--pipeline_model_parallel_layout" "$PIPELINE_LAYOUT")
+elif [ "$VPP" -gt 1 ]; then
+    FEATURE_ARGS+=("--num_virtual_stages_per_pipeline_rank" "$VPP")
 fi
 
 ###################### Training Launch Config #################################
