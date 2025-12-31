@@ -1,11 +1,21 @@
 # Training-Benchmark
 
 ### Setup
+
 ```bash
-# Set up pre-commit hooks
+# Clone with submodules
+git clone git@github.com:Xiaoming-AMD/Training-Benchmark.git
+cd Training-Benchmark
+git submodule update --init --recursive
+
+# Set up pre-commit hooks (optional, for local linting/formatting)
 pip install pre-commit
 pre-commit install
 ```
+
+The main training engine `Primus` is checked out as a git submodule under:
+
+- `third_party/Primus`
 
 ## MI355 Pretrain & Perf Scripts
 
