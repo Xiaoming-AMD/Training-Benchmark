@@ -31,7 +31,7 @@ bash scripts/MI355/perf_test_qwen3_235b_a22b.sh
 
 This script:
 - Exports common perf flags (`MANUAL_GC`, `NUMA_BINDING`, `ENABLE_SYNC_FREE_MOE`, `ENABLE_TURBO_DEEPEP`)
-- Iterates over a list of `(NNODES, MBS, GBS, PP, EP, VPP, PIPELINE_LAYOUT, TRAIN_ITERS)` configs
+- Iterates over a list of `(NNODES, MBS, GBS, PP, EP, PIPELINE_LAYOUT, TRAIN_ITERS)` configs
 - Calls `run_pretrain_mi355x.sh` for each config
 
 ### 2. Qwen3 30B A3B Benchmark
