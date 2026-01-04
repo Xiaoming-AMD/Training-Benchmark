@@ -36,7 +36,6 @@ export TRAIN_ITERS=${TRAIN_ITERS:-10}
 export MANUAL_GC=${MANUAL_GC:-False}
 export ENABLE_SYNC_FREE_MOE=${ENABLE_SYNC_FREE_MOE:-False}
 export ENABLE_TURBO_DEEPEP=${ENABLE_TURBO_DEEPEP:-False}
-export VPP=${VPP:-1}
 
 # Optional pipeline layout: if PIPELINE_LAYOUT is set externally, pass it through;
 # otherwise do not configure pipeline_model_parallel_layout at all.
@@ -106,7 +105,6 @@ bash ./examples/run_slurm_pretrain.sh \
     --seq_length "$SEQ_LENGTH" \
     --tensor_model_parallel_size "$TP" \
     --pipeline_model_parallel_size "$PP" \
-    --num_virtual_stages_per_pipeline_rank "$VPP" \
     --expert_model_parallel_size "$EP" \
     --expert_tensor_parallel_size "$ETP" \
     --context_parallel_size "$CP" \
