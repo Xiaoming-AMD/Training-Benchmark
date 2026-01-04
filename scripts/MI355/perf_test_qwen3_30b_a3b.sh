@@ -25,15 +25,15 @@ CONFIGS=(
 cd "$PRIMUS_PATH" || exit
 for CONFIG in "${CONFIGS[@]}"; do
     read -r node_num mbs gbs tp pp ep cp recompute_layers train_iters log_avg_skip_iterations <<< "$CONFIG"
-    export NNODES=${node_num}
-    export MBS=${mbs}
-    export GBS=${gbs}
-    export TP=${tp}
-    export PP=${pp}
-    export EP=${ep}
-    export CP=${cp}
-    export RECOMPUTE_LAYERS=${recompute_layers}
-    export TRAIN_ITERS=${train_iters}
-    export LOG_AVG_SKIP_ITERATIONS=${log_avg_skip_iterations}
+    export NNODES=${node_num}                   # Number of nodes
+    export MBS=${mbs}                           # Micro batch size
+    export GBS=${gbs}                           # Global batch size
+    export TP=${tp}                             # Tensor parallel
+    export PP=${pp}                             # Pipeline parallel
+    export EP=${ep}                             # Expert parallel
+    export CP=${cp}                             # Context parallel
+    export RECOMPUTE_LAYERS=${recompute_layers} # Recomputation layers
+    export TRAIN_ITERS=${train_iters}           # Training iterations
+    export LOG_AVG_SKIP_ITERATIONS=${log_avg_skip_iterations} # Skip the first several iterations when calculating throughput average
     bash "${TRAINING_BENCHMARK_DIR}"/scripts/MI355/run_pretrain_mi355x.sh
 done
