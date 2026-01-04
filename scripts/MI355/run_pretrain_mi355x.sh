@@ -33,7 +33,6 @@ export TRAIN_ITERS=${TRAIN_ITERS:-10}
 export MANUAL_GC=${MANUAL_GC:-False}
 export ENABLE_SYNC_FREE_MOE=${ENABLE_SYNC_FREE_MOE:-False}
 export ENABLE_TURBO_DEEPEP=${ENABLE_TURBO_DEEPEP:-False}
-export VPP=${VPP:-1}
 
 # Optional pipeline layout: if PIPELINE_LAYOUT is set externally, pass it through;
 # otherwise do not configure pipeline_model_parallel_layout at all.
@@ -70,7 +69,7 @@ fi
 
 if [ -n "$PIPELINE_LAYOUT" ]; then
     FEATURE_ARGS+=("--pipeline_model_parallel_layout" "$PIPELINE_LAYOUT")
-elif [ "$VPP" -ge 1 ]; then
+elif [ "$VPP" -gt 1 ]; then
     FEATURE_ARGS+=("--num_virtual_stages_per_pipeline_rank" "$VPP")
 fi
 
