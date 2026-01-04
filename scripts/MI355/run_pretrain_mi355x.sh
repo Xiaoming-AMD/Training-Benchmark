@@ -70,7 +70,7 @@ fi
 
 if [ -n "$PIPELINE_LAYOUT" ]; then
     FEATURE_ARGS+=("--pipeline_model_parallel_layout" "$PIPELINE_LAYOUT")
-elif [ "$VPP" -gt 1 ]; then
+elif [ "$VPP" -ge 1 ]; then
     FEATURE_ARGS+=("--num_virtual_stages_per_pipeline_rank" "$VPP")
 fi
 
@@ -103,7 +103,6 @@ bash ./examples/run_slurm_pretrain.sh \
     --seq_length "$SEQ_LENGTH" \
     --tensor_model_parallel_size "$TP" \
     --pipeline_model_parallel_size "$PP" \
-    --num_virtual_stages_per_pipeline_rank "$VPP" \
     --expert_model_parallel_size "$EP" \
     --moe_use_legacy_grouped_gemm "$LEGACY_GG" \
     --recompute_granularity "full" \
