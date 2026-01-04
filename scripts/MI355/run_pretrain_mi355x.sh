@@ -25,8 +25,11 @@ export GBS=${GBS:-256}
 export TP=${TP:-1}
 export PP=${PP:-1}
 export EP=${EP:-1}
+export ETP=${ETP:-1}
+export CP=${CP:-1}
 export VPP=${VPP:-1}
 export SEQ_LENGTH=${SEQ_LENGTH:-4096}
+export LOG_AVG_SKIP_ITERATIONS=${LOG_AVG_SKIP_ITERATIONS:-2}
 export RECOMPUTE_LAYERS=${RECOMPUTE_LAYERS:-0}
 export LEGACY_GG=${LEGACY_GG:-False}
 export TRAIN_ITERS=${TRAIN_ITERS:-10}
@@ -87,7 +90,7 @@ fi
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
 export PRIMUS_USER=user-tas
-export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}"
+export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}_ETP${ETP}_CP${CP}"
 
 LOG_DIR=./output/$PRIMUS_TEAM/$PRIMUS_USER/$PRIMUS_EXP_NAME
 export LOG_FILE=$LOG_DIR/training.log
@@ -105,11 +108,14 @@ bash ./examples/run_slurm_pretrain.sh \
     --pipeline_model_parallel_size "$PP" \
     --num_virtual_stages_per_pipeline_rank "$VPP" \
     --expert_model_parallel_size "$EP" \
+    --expert_tensor_parallel_size "$ETP" \
+    --context_parallel_size "$CP" \
     --moe_use_legacy_grouped_gemm "$LEGACY_GG" \
     --recompute_granularity "full" \
     --recompute_method "block" \
     --recompute_num_layers "${RECOMPUTE_LAYERS}" \
     --cross_entropy_fusion_impl "te" \
     --cross_entropy_loss_fusion "True" \
+    --log_avg_skip_iterations "$LOG_AVG_SKIP_ITERATIONS" \
     "${FEATURE_ARGS[@]}" \
     --train_iters "$TRAIN_ITERS" 2>&1 | tee "$LOG_FILE"
