@@ -19,6 +19,16 @@ pre-commit install
 - All MI355-related scripts are under `scripts/MI355` and use `run_pretrain_mi355x.sh` as the unified entry.
 - All training log files are stored under the path: third_party/Primus/output/date-$(date +%Y%m%d).
 
+> **Note:**
+> Before running the following scripts, please make sure to set the environment variables provided by AMD. These are required to pull the `tasimage` Docker images and access Huggingface tokenizers (replace with your own token if needed):
+>
+> ```bash
+> export HF_TOKEN="your_hf_token"
+> export DOCKER_LOGIN_USER="login_user"
+> export DOCKER_LOGIN_KEY="login_key"
+> ```
+
+
 ### 1. Qwen3 235B Benchmark
 
 Run the predefined Qwen3 235B A22B performance sweep:
