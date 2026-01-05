@@ -13,13 +13,11 @@ pip install pre-commit
 pre-commit install
 ```
 
-The main training engine `Primus` is checked out as a git submodule under:
-
-- `third_party/Primus`
 
 ## MI355 Pretrain & Perf Scripts
 
-All MI355-related scripts are under `scripts/MI355` and use `run_pretrain_mi355x.sh` as the unified entry.
+- All MI355-related scripts are under `scripts/MI355` and use `run_pretrain_mi355x.sh` as the unified entry.
+- All training log files are stored under the path: third_party/Primus/output/date-$(date +%Y%m%d).
 
 ### 1. Qwen3 235B Benchmark
 
