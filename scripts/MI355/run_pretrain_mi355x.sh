@@ -12,7 +12,7 @@ export HF_TOKEN=${HF_TOKEN:-"your_hf_token"}
 export DOCKER_LOGIN_USER=${DOCKER_LOGIN_USER:-}
 export DOCKER_LOGIN_KEY=${DOCKER_LOGIN_KEY:-}
 export CLEAN_DOCKER_CONTAINER=1
-export SKIP_TRAIN=1
+export SKIP_TRAIN=0
 
 ######################## Vultr Cluster Settings ###############################
 export NNODES=${NNODES:-1}
