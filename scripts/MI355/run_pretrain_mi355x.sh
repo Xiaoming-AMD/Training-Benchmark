@@ -9,8 +9,10 @@
 ###################### Training Docker and Variables ##########################
 export DOCKER_IMAGE="docker.io/tasimage/primus:pr-464-v25.09-ainic"
 export HF_TOKEN=${HF_TOKEN:-"your_hf_token"}
+export DOCKER_LOGIN_USER=${DOCKER_LOGIN_USER:-}
+export DOCKER_LOGIN_KEY=${DOCKER_LOGIN_KEY:-}
 export CLEAN_DOCKER_CONTAINER=1
-export SKIP_TRAIN=0
+export SKIP_TRAIN=1
 
 ######################## Vultr Cluster Settings ###############################
 export NNODES=${NNODES:-1}
@@ -89,7 +91,7 @@ fi
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
 export PRIMUS_USER=user-tas
-export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}_ETP${ETP}_CP${CP}"
+export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}_ETP${ETP}_CP${CP}_$(date +%H%M)"
 
 LOG_DIR=./output/$PRIMUS_TEAM/$PRIMUS_USER/$PRIMUS_EXP_NAME
 export LOG_FILE=$LOG_DIR/training.log
