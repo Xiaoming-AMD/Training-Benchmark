@@ -78,6 +78,16 @@ elif [ "$VPP" -gt 1 ]; then
     FEATURE_ARGS+=("--num_virtual_stages_per_pipeline_rank" "$VPP")
 fi
 
+if [ -n "$PP_ALGORITHM" ]; then
+    FEATURE_ARGS+=("--patch_primus_pipeline" "True")
+    FEATURE_ARGS+=("--pp_algorithm" "$PP_ALGORITHM")
+    FEATURE_ARGS+=("--overlap_grad_reduce" "False")
+    FEATURE_ARGS+=("--overlap_param_gather" "False")
+    FEATURE_ARGS+=("--no_persist_layer_norm" "True")
+    FEATURE_ARGS+=("--create_attention_mask_in_dataloader" "False")
+    FEATURE_ARGS+=("--gradient_accumulation_fusion" "True")
+fi
+
 ###################### Training Launch Config #################################
 export HSA_NO_SCRATCH_RECLAIM=1
 export NVTE_CK_USES_BWD_V3=1
@@ -91,7 +101,7 @@ fi
 ####################### Training Experiments ##################################
 export PRIMUS_TEAM="date-$(date +%Y%m%d)"
 export PRIMUS_USER=user-tas
-export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}_ETP${ETP}_CP${CP}_$(date +%H%M)"
+export PRIMUS_EXP_NAME="${MODEL_NAME}_MI355X_NNODES${NNODES}_MBS${MBS}_GBS${GBS}_TP${TP}_PP${PP}_VPP${VPP}_EP${EP}_ETP${ETP}_CP${CP}_PPALGO${PP_ALGORITHM}_$(date +%H%M)"
 
 LOG_DIR=./output/$PRIMUS_TEAM/$PRIMUS_USER/$PRIMUS_EXP_NAME
 export LOG_FILE=$LOG_DIR/training.log
