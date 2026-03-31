@@ -85,3 +85,12 @@ This script:
 - Sets `MODEL_NAME=llama3.1_70B` or `MODEL_NAME=llama3.1_70B-Zero`
 - Sweeps `(MODEL_NAME, NNODES, MBS, GBS, TP, PP, VPP, RECOMPUTE_LAYERS, TRAIN_ITERS)`
 - Calls `run_pretrain_mi355x.sh` for each config
+
+### 6. Qwen2.5 30B Benchmark
+
+There is no dedicated `perf_test_qwen2.5_30b.sh` script yet. Use `scripts/MI355/perf_test_qwen2.5_32b.sh` as the template for Qwen2.5 30B benchmarking.
+
+This template script:
+- Uses `run_pretrain_mi355x.sh` as the unified launcher
+- Sweeps `(NNODES, GPUS_PER_NODE, MBS, GBS, TP, PP, RECOMPUTE_LAYERS, TRAIN_ITERS, LOG_AVG_SKIP_ITERATIONS)`
+- Can be adapted for 30B by updating `MODEL_NAME` and corresponding config settings
